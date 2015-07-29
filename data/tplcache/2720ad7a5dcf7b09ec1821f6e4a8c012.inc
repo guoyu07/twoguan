@@ -1,0 +1,1 @@
+<li [field:global.autoindex runphp='yes']if(@me%3==0)@me='class="mr_0"';else @me='';[/field:global.autoindex]><a class="fl" href="[field:url/]" target="_blank"><img class="fl lazyimg" src="" data-original="[field:litpic/]" width="310" height="215" alt="[field:title/]" /></a><p><a href="[field:url/]" target="_blank">[field:title/]</a></p></li>

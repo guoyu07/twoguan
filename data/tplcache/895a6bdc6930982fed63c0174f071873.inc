@@ -1,0 +1,1 @@
+<a href="[field:attrid function=getTuanUrl(@me,'attrid')/]" class="[field:attrid function=getTuanAttrUrlCls('on',@me)/]" >[field:title/]</a>

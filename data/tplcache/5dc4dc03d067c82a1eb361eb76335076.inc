@@ -1,0 +1,1 @@
+<a href="[field:url/]" rel="nofollow">[field:title/]</a>

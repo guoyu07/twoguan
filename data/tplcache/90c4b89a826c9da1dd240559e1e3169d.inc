@@ -1,0 +1,1 @@
+<li rel="[field:id/]">[field:cityname/]</li>
