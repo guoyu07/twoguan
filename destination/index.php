@@ -14,6 +14,7 @@ $pv->Fields['seodescription']=!empty($pv->Fields['seodescription'])?"<meta name=
 //$pv->Fields['list'] = $dest->getCacheDest();
 $templet = Helper_Archive::getUseTemplet('dest_boot');//获取目的地引导页使用模板
 $templet = !empty($templet) ? $templet : SLINETEMPLATE ."/".$cfg_df_style ."/" ."destination/" ."index.htm";
+
 $pv->SetTemplet($templet);
 $pv->Display();
 

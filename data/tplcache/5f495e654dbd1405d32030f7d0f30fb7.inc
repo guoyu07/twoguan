@@ -1,0 +1,1 @@
+<a href="[field:id function=getPhotoUrl(@me,'dest_id')/]"  class="[field:id function=getPhotoUrlCls('active','dest_id',@me) /]">[field:kindname/]</a>
