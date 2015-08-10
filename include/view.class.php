@@ -303,7 +303,7 @@ function MakeOneTag(&$dtp, &$refObj, $parfield='Y')
 		  
 		
 		  $row = $dsql->GetOne($sql);
-		
+
 		  if(is_array($row))
 		  {
 			  $row['seotitle']=empty($row['seotitle'])?$row['typename']:$row['seotitle'];
@@ -312,7 +312,7 @@ function MakeOneTag(&$dtp, &$refObj, $parfield='Y')
             {
                 $this->Fields[$k] = $v;
             }
-			//print_r($this->Fields);
+			//var_dump($this->Fields);
 		  }
 		  $this->Fields['taglook']=GetTagsLink($row['tagword']);
 	   

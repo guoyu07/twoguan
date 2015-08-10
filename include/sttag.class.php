@@ -195,6 +195,7 @@ class STTagParse
         $cdir = dirname($filename);
         $cachedir = SLINEROOT.$cfg_tplcache_dir;
         $ckfile = str_replace($cdir,'',$filename).substr(md5($filename),0,16).'.inc';
+
         $ckfullfile = $cachedir.'/'.$ckfile;
         $ckfullfile_t = $cachedir.'/'.$ckfile.'.txt';
         $this->CacheFile = $ckfullfile;
@@ -311,8 +312,6 @@ class STTagParse
         $this->SetDefault();
         if(!file_exists($filename))
         {
-           
-			
 			$this->SourceString = " $filename Not Found! ";
             $this->ParseTemplet();
         }
@@ -1179,6 +1178,7 @@ class STAttributeParse
         $startdd = -1;
         $ddtag = '';
         $hasAttribute=FALSE;
+
         $strLen = strlen($this->sourceString);
 
         // 获得Tag的名称，解析到 cAtt->GetAtt('tagname') 中

@@ -55,7 +55,6 @@ function lib_getdest(&$ctag,&$refObj)
 	  }
 	  if($flag == 'hot')
 	  {
-
 	   	  $sql="select a.* from {$table} a where a.ishot = 1 and a.isopen = 1 order by a.displayorder asc limit $limit,$row";
 	  }
       if($flag == 'mdd_hot')
@@ -116,10 +115,11 @@ function lib_getdest(&$ctag,&$refObj)
    }
 
 	 $rows = null;
+
+
 	
 	 $rows=$dsql->getAll($sql);
 	 $GLOBALS['autoindex']=0;
-
 
 
         foreach($rows as $row)
@@ -132,6 +132,7 @@ function lib_getdest(&$ctag,&$refObj)
 
             $row['litpic']=getUploadFileUrl($litpic);
             $row['kindid']=$row['id'];
+           // $row['title']=$row['kindname'];
             $row['title']=$row['kindname'];
             $row['pinyin'] =!empty($row['pinyin']) ? $row['pinyin'] : $row['id'];
             $desturl = GetWebURLByWebid(0);
@@ -151,8 +152,6 @@ function lib_getdest(&$ctag,&$refObj)
             }
             $revalue .= $ctp->GetResult();
         }
-
-
 
 
     return $revalue;
