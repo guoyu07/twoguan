@@ -112,7 +112,7 @@ else if($dopost=="savebooking")
    $row=TongYong::getProductInfo($productaid,$typeid);
    $suitinfo = TongYong::getSuitInfo($suitid);
    $status = $paytype==1 ? 1 : 0;
-   'linktel'=>Helper_Archive::pregReplace($linktel,2);
+   //'linktel'=>Helper_Archive::pregReplace($linktel,2);
    $arr = array(
            'ordersn'=>$ordersn,
 		   'webid'=>$webid,
