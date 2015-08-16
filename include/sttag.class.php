@@ -802,11 +802,11 @@ class STTagParse
      */
     function ParseTemplet()
     {
-        $TagStartWord = $this->TagStartWord;
-        $TagEndWord = $this->TagEndWord;
+        $TagStartWord = $this->TagStartWord; // {
+        $TagEndWord = $this->TagEndWord;  // }
         $sPos = 0; $ePos = 0;
         $FullTagStartWord =  $TagStartWord.$this->NameSpace.":";//{sline:
-        $sTagEndWord =  $TagStartWord."/".$this->NameSpace.":";//{/sline}
+        $sTagEndWord =  $TagStartWord."/".$this->NameSpace.":";//{/sline:}
         $eTagEndWord = "/".$TagEndWord;// /}
         $tsLen = strlen($FullTagStartWord);
 //        var_dump($this->SourceString);exit;
@@ -868,13 +868,13 @@ class STTagParse
             {
                 $i = $sPos+$tsLen;
                 $endPos = -1;
-                $fullTagEndWordThis = $sTagEndWord.$tTagName.$TagEndWord;
+                $fullTagEndWordThis = $sTagEndWord.$tTagName.$TagEndWord; //{/sline:$sTagName}
                 
-                $e1 = strpos($this->SourceString,$eTagEndWord, $i);
-                $e2 = strpos($this->SourceString,$FullTagStartWord, $i);
+                $e1 = strpos($this->SourceString,$eTagEndWord, $i);  // /}
+                $e2 = strpos($this->SourceString,$FullTagStartWord, $i); // {sline:
                 $e3 = strpos($this->SourceString,$fullTagEndWordThis,$i);
                 
-                //$eTagEndWord = /} $FullTagStartWord = {tag: $fullTagEndWordThis = {/tag:xxx]
+                //$eTagEndWord = /}      $FullTagStartWord = {tag:    $fullTagEndWordThis = {/tag:xxx}
                 
                 $e1 = trim($e1); $e2 = trim($e2); $e3 = trim($e3);
                 $e1 = ($e1=='' ? '-1' : $e1);
@@ -959,7 +959,7 @@ class STTagParse
                 break;
             }
         }//结束遍历模板字符串
-
+//        exit;
         if($this->IsCache)
         {
             $this->SaveCache();
