@@ -111,8 +111,6 @@ class View
 			}
 			else
 			{
-			  
-			   
 			   $temp = str_replace(SLINETEMPLATE ."/".$GLOBALS['cfg_df_style'] ."/",SLINETEMPLATE ."/smore/" ,$temp);
 			   $this->dtp->LoadTemplet($temp);
 			}
@@ -123,7 +121,6 @@ class View
             $this->Fields['title'] = $this->TypeLink->GetPositionLink(false);
         }*/
         $this->templetTagDir = !empty($tagdir) ? $tagdir : dirname($temp).'/taglib';
-
         $this->ParseTemplet();
     }
 
@@ -177,7 +174,6 @@ class View
    
 function MakeOneTag(&$dtp, &$refObj, $parfield='Y')
 {
-    
     $dtp->setRefObj($refObj);
     //读取自由调用tag列表
     $usertags = array(); //用户模板标签
@@ -186,7 +182,7 @@ function MakeOneTag(&$dtp, &$refObj, $parfield='Y')
 	$usetemppath = SLINEINC.'/taglib/'.$GLOBALS['cfg_df_style'];
 
     //用户模板标签
-    if(is_dir($this->templetTagDir))
+    if(is_dir($this->templetTagDir)) //不存在
     {
         $utag= dir($this->templetTagDir);
         while($filename = $utag->read())
@@ -221,6 +217,7 @@ function MakeOneTag(&$dtp, &$refObj, $parfield='Y')
         }
     }
     $stag->Close();
+
 
     //遍历tag元素
     if(!is_array($dtp->CTags))

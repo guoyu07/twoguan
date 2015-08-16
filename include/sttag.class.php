@@ -85,7 +85,7 @@ class STTagParse
     var $NameSpace = 'sline';   //标记的名字空间
     var $TagStartWord = '{';   //标记起始
     var $TagEndWord = '}';     //标记结束
-    var $TagMaxLen = 64;       //标记名称的最大值
+    var $TagMaxLen = 64;       //标记名称的最大值,即模板标签内不超过64个sline
     var $CharToLow = TRUE;     // TRUE表示对属性和标记名称不区分大小写
     var $IsCache = FALSE;      //是否使用缓冲
     var $TempMkTime = 0;
@@ -805,12 +805,13 @@ class STTagParse
         $TagStartWord = $this->TagStartWord;
         $TagEndWord = $this->TagEndWord;
         $sPos = 0; $ePos = 0;
-        $FullTagStartWord =  $TagStartWord.$this->NameSpace.":";
-        $sTagEndWord =  $TagStartWord."/".$this->NameSpace.":";
-        $eTagEndWord = "/".$TagEndWord;
+        $FullTagStartWord =  $TagStartWord.$this->NameSpace.":";//{sline:
+        $sTagEndWord =  $TagStartWord."/".$this->NameSpace.":";//{/sline}
+        $eTagEndWord = "/".$TagEndWord;// /}
         $tsLen = strlen($FullTagStartWord);
+//        var_dump($this->SourceString);exit;
         $sourceLen=strlen($this->SourceString);
-        
+
         if( $sourceLen <= ($tsLen + 3) )
         {
             return;
@@ -833,6 +834,7 @@ class STTagParse
                 $ss = 0;
             }
             $sPos = strpos($this->SourceString,$FullTagStartWord,$ss);
+//            echo $i.'<br/>';
             $isTag = $sPos;
             if($i==0)
             {
@@ -842,7 +844,7 @@ class STTagParse
                     $isTag=TRUE; $sPos=0;
                 }
             }
-            if($isTag===FALSE)
+            if($isTag===FALSE) //循环遍历模板字符，当没有{/sline 的时候就退出循环
             {
                 break;
             }
