@@ -187,11 +187,13 @@ class STTagParse
      */
     function LoadCache($filename)
     {
+
         global $cfg_tplcache,$cfg_tplcache_dir;
         if(!$this->IsCache)
         {
             return FALSE;
         }
+
         $cdir = dirname($filename);
         $cachedir = SLINEROOT.$cfg_tplcache_dir;
         $ckfile = str_replace($cdir,'',$filename).substr(md5($filename),0,16).'.inc';
@@ -223,7 +225,7 @@ class STTagParse
             foreach($z as $k=>$v)
             {
                 $this->Count++;
-                $ctag = new STTAg();
+                $ctag = new STTag();
                 $ctag->CAttribute = new STAttribute();
                 $ctag->IsReplace = FALSE;
                 $ctag->TagName = $v[0];
@@ -256,6 +258,7 @@ class STTagParse
     /**
      *  写入缓存
      *
+     * * 有两个疑问，CacheFile和CTags都不知道从哪里取值
      * @access    public
      * @param     string
      * @return    string

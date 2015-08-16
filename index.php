@@ -24,13 +24,13 @@ else if (file_exists($child_html) && $genpage != 1 && $GLOBALS['sys_child_webid'
 }
 else
 {
-
     $pv = new View();
     $temp_num = $dsql->GetOne("select count(*) as num from #@__member_order");
     $pv->GetChannelKeywords(0);
     $pv->Fields['sellnum'] = $temp_num['num'];
 
     $templet = Helper_Archive::getUseTemplet('index'); //获取首页使用模板(根据当前域名自动判断是主站还是子站)
+
     if (!$GLOBALS['sys_child_webid'])
     {
         $indextemplet = $GLOBALS['cfg_index_templet'] ? $GLOBALS['cfg_index_templet'] : 'index_1.htm';

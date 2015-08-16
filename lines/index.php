@@ -4,6 +4,7 @@ $typeid=1; //线路栏目
 require_once SLINEINC."/view.class.php";
 
 $html = dirname(__FILE__).'/index.html';
+
 if(file_exists($html) && $genpage != 1 )
 {
     include($html);
