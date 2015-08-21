@@ -24,7 +24,8 @@ function helper($helpers)
 
     if (isset($_helpers[$helpers]))
     {
-        continue;
+        //continue;
+		return;
     }
     if (file_exists(SLINEINC.'/helpers/'.$helpers.'.helper.php'))
     { 
@@ -117,13 +118,23 @@ function ShowMsg($msg, $gourl, $onlymsg=0, $limittime=0)
       function JumpUrl(){
         if(pgo==0){ location='$gourl'; pgo=1; }
       }\r\n";
+		/*
         $rmsg = $func;
         $rmsg .= "document.write(\"<br /><div style='width:450px;padding:0px;border:1px solid #7497ab;'>";
         $rmsg .= "<div class='topbg' style='padding:0px 6px;height:28px;line-height:28px;color:#fff;font-size:12px;border-bottom:1px solid #7497ab;background:url({$GLOBALS['cfg_basehost']}/stourtravel/img/title_1.jpg) repeat-x;'><b>{$GLOBALS['cfg_webname']}提示</b></div>\");\r\n";
         $rmsg .= "document.write(\"<div style='height:130px;font-size:10pt;background:#DEF0FA'><br />\");\r\n";
-       $rmsg .= "document.write(\"".str_replace("\"","“",$msg)."\");\r\n";
+        $rmsg .= "document.write(\"".str_replace("\"","“",$msg)."\");\r\n";
         $rmsg .= "document.write(\"";
-        
+		*/
+		$rmsg = $func;
+		$rmsg .= <<<EOT
+		    document.write(<br /><div style='width:450px;padding:0px;border:1px solid #7497ab;'>;
+		   <div class='topbg' style='padding:0px 6px;height:28px;line-height:28px;color:#fff;font-size:12px;border-bottom:1px solid #7497ab;background:url({$GLOBALS['cfg_basehost']}/stourtravel/img/title_1.jpg) repeat-x;'><b>{$GLOBALS['cfg_webname']}提示</b></div>);
+		   document.write(<div style='height:130px;font-size:10pt;background:#DEF0FA'><br />);
+		    document.write(str_replace("","“",{$msg}));
+		   document.write(;
+EOT;
+
         if($onlymsg==0)
         {
             if( $gourl != 'javascript:;' && $gourl != '')

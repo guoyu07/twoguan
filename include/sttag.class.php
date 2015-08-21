@@ -85,7 +85,7 @@ class STTagParse
     var $NameSpace = 'sline';   //标记的名字空间
     var $TagStartWord = '{';   //标记起始
     var $TagEndWord = '}';     //标记结束
-    var $TagMaxLen = 64;       //标记名称的最大值
+    var $TagMaxLen = 64;       //标记名称的最大值,即模板标签内不超过64个sline
     var $CharToLow = TRUE;     // TRUE表示对属性和标记名称不区分大小写
     var $IsCache = FALSE;      //是否使用缓冲
     var $TempMkTime = 0;
@@ -187,11 +187,13 @@ class STTagParse
      */
     function LoadCache($filename)
     {
+
         global $cfg_tplcache,$cfg_tplcache_dir;
         if(!$this->IsCache)
         {
             return FALSE;
         }
+
         $cdir = dirname($filename);
         $cachedir = SLINEROOT.$cfg_tplcache_dir;
         $ckfile = str_replace($cdir,'',$filename).substr(md5($filename),0,16).'.inc';
@@ -223,7 +225,7 @@ class STTagParse
             foreach($z as $k=>$v)
             {
                 $this->Count++;
-                $ctag = new STTAg();
+                $ctag = new STTag();
                 $ctag->CAttribute = new STAttribute();
                 $ctag->IsReplace = FALSE;
                 $ctag->TagName = $v[0];
@@ -256,6 +258,7 @@ class STTagParse
     /**
      *  写入缓存
      *
+     * * 有两个疑问，CacheFile和CTags都不知道从哪里取值
      * @access    public
      * @param     string
      * @return    string
@@ -799,15 +802,16 @@ class STTagParse
      */
     function ParseTemplet()
     {
-        $TagStartWord = $this->TagStartWord;
-        $TagEndWord = $this->TagEndWord;
+        $TagStartWord = $this->TagStartWord; // {
+        $TagEndWord = $this->TagEndWord;  // }
         $sPos = 0; $ePos = 0;
-        $FullTagStartWord =  $TagStartWord.$this->NameSpace.":";
-        $sTagEndWord =  $TagStartWord."/".$this->NameSpace.":";
-        $eTagEndWord = "/".$TagEndWord;
+        $FullTagStartWord =  $TagStartWord.$this->NameSpace.":";//{sline:
+        $sTagEndWord =  $TagStartWord."/".$this->NameSpace.":";//{/sline:}
+        $eTagEndWord = "/".$TagEndWord;// /}
         $tsLen = strlen($FullTagStartWord);
+        //echo  $this->SourceString;exit;
         $sourceLen=strlen($this->SourceString);
-        
+
         if( $sourceLen <= ($tsLen + 3) )
         {
             return;
@@ -830,6 +834,7 @@ class STTagParse
                 $ss = 0;
             }
             $sPos = strpos($this->SourceString,$FullTagStartWord,$ss);
+//            echo $i.'<br/>';
             $isTag = $sPos;
             if($i==0)
             {
@@ -839,7 +844,7 @@ class STTagParse
                     $isTag=TRUE; $sPos=0;
                 }
             }
-            if($isTag===FALSE)
+            if($isTag===FALSE) //循环遍历模板字符，当没有{/sline 的时候就退出循环
             {
                 break;
             }
@@ -859,17 +864,18 @@ class STTagParse
                     $tTagName .= $this->SourceString[$j];
                 }
             }
+
             if($tTagName!='')
             {
                 $i = $sPos+$tsLen;
                 $endPos = -1;
-                $fullTagEndWordThis = $sTagEndWord.$tTagName.$TagEndWord;
+                $fullTagEndWordThis = $sTagEndWord.$tTagName.$TagEndWord; //{/sline:$sTagName}
                 
-                $e1 = strpos($this->SourceString,$eTagEndWord, $i);
-                $e2 = strpos($this->SourceString,$FullTagStartWord, $i);
+                $e1 = strpos($this->SourceString,$eTagEndWord, $i);  // /}
+                $e2 = strpos($this->SourceString,$FullTagStartWord, $i); // {sline:
                 $e3 = strpos($this->SourceString,$fullTagEndWordThis,$i);
                 
-                //$eTagEndWord = /} $FullTagStartWord = {tag: $fullTagEndWordThis = {/tag:xxx]
+                //$eTagEndWord = /}      $FullTagStartWord = {tag:    $fullTagEndWordThis = {/tag:xxx}
                 
                 $e1 = trim($e1); $e2 = trim($e2); $e3 = trim($e3);
                 $e1 = ($e1=='' ? '-1' : $e1);
@@ -933,6 +939,7 @@ class STTagParse
                     }
                 }
                 //echo "<xmp>$attStr</xmp>\r\n";
+
                 $cAtt->SetSource($attStr);
                 if($cAtt->cAttributes->GetTagName()!='')
                 {
@@ -954,7 +961,7 @@ class STTagParse
                 break;
             }
         }//结束遍历模板字符串
-
+//        exit;
         if($this->IsCache)
         {
             $this->SaveCache();
@@ -1288,5 +1295,7 @@ class STAttributeParse
             $this->cAttributes->Items[$tmpatt] = trim($tmpvalue);
         }
         //print_r($this->cAttributes->Items);
+
+        //var_dump($this->cAttributes->items);
     }// end func
 }

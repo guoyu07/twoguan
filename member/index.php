@@ -5,7 +5,6 @@
  */
 require_once(dirname(__FILE__)."/config.php");
 
-
 if(!$User->isLogin())
 {
 	header("Location: " . $cfg_cmsurl . "/member/login.php");
@@ -19,7 +18,6 @@ $pv = new View(0);
 //会员中心首页
 if(!isset($dopost))
 {
-	
         Helper_Archive::loadModule('common');
 	    $_model = new CommonModule('#@__member_order');
 		$pv->Fields['unpinlun'] = $_model->getCount("memberid='$uid' and ispinlun=0 and status=2 and pid=0");//未评论订单数量
@@ -109,13 +107,13 @@ if($dopost == 'changepass')
 {
   $userinfo = $User->getInfoByMid($uid);
  
-  $pagename = $dopost;//当前页面,用于左侧导航选中
+  $pagename = $dopost;//当前页面,用于左侧导航选中  ，在模板中可以用作{sline:global.pagename runphp='yes'}{/sline:global.pagename}标签，也可以通过{sline:global.pagename/}取值
   foreach($userinfo as $key=>$value)
   {
 	$pv->Fields[$key] = $value;  
   }
    
-  $pv->Fields['pagename'] = $pagename;
+  $pv->Fields['pagename'] = $pagename;  //在模板中，可以通过{sline:field.pagename/} 取值
   $pv->SetTemplet(MEMBERTEMPLET . "changepass.htm");
   $pv->Display();
   exit;	

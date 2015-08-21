@@ -44,11 +44,9 @@ function _RunMagicQuotes(&$svar)
     return $svar;
 }
 
-if (!defined('SLINEREQUEST')) 
+//页面传递的变量处理，比如_GET,$_POST，直接可以用$key值表示变量的值
+if (!defined('SLINEREQUEST'))
 {
- 
-   
-
     //检查变量
     function CheckRequest(&$val)
     {
@@ -71,10 +69,10 @@ if (!defined('SLINEREQUEST'))
     CheckRequest($_REQUEST);
     foreach(Array('_GET','_POST') as $_request)
     {
-       
-		foreach($$_request as $_k => $_v) 
-		{	
-         
+
+		foreach($$_request as $_k => $_v)
+		{
+
 		  ${$_k} = _RunMagicQuotes($_v);
 		}
     }

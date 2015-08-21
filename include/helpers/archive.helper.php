@@ -2658,6 +2658,7 @@ public static function getUrl($val=null,$key=null,$exclude=null,$arr,$url,$table
         {
             $sql="select b.path from #@__page a left join #@__page_config b on a.id=b.pageid where a.pagename='$pagename' and b.isuse = 1";
             $row = $dsql->GetOne($sql);
+
             if(isset($row['path']))
             {
                 $templet = SLINETEMPLATE.'/smore/uploadtemplets/'. $row['path'].'/index.htm';
